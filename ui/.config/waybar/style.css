@@ -1,0 +1,107 @@
+/* --- Estilos Generales --- */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "NotoSansM Nerd Font", "Noto Sans", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(26, 27, 38, 0.6);
+    /* Fondo de la barra transparente */
+    color: #c0caf5;
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+/* --- Margen y Fondo estilo Píldora para cada módulo --- */
+#pulseaudio,
+#clock,
+#clock.right,
+#workspaces,
+#battery {
+    background-color: #1a1b26;
+    padding: 4px 12px;
+    margin: 6px 4px;
+    border-radius: 10px;
+}
+
+/* --- Módulo Izquierdo: Audio --- */
+#pulseaudio {
+    color: #7aa2f7;
+}
+
+#pulseaudio.muted {
+    color: #f7768e;
+}
+
+/* --- Módulo Central: Relojes y Workspaces --- */
+#clock {
+    color: #bb9af7;
+    margin-right: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#clock.right {
+    color: #bb9af7;
+    margin-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+#workspaces {
+    background-color: #1a1b26;
+    padding: 0px 6px;
+}
+
+#workspaces button {
+    padding: 0px 6px;
+    color: #565f89;
+    border-radius: 10px;
+}
+
+#workspaces button.active {
+    color: #7dcfff;
+}
+
+#workspaces button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Módulo Derecho: Batería --- */
+#battery {
+    color: #9ece6a;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #73daca;
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f7768e;
+    color: #1a1b26;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+/* Estilo general del cuadro flotante */
+tooltip {
+    background: #1a1b26;
+    border: 1px solid #7aa2f7;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+/* Estilo del texto dentro del tooltip */
+tooltip label {
+    color: #c0caf5;
+    font-family: "NotoSansM Nerd Font", sans-serif;
+    font-size: 13px;
+}
