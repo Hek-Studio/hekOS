@@ -1,0 +1,91 @@
+/* --- Estilos Generales SwayNC --- */
+* {
+    font-family: "NotoSansM Nerd Font", sans-serif;
+    font-size: 13px;
+    border-radius: 12px;
+}
+
+/* Panel del Centro de Control */
+.control-center {
+    background: rgba(26, 27, 38, 0.95);
+    border: 1px solid #7aa2f7;
+    padding: 12px;
+}
+
+/* Tarjetas de Notificación */
+.notification-row {
+    outline: none;
+    margin: 6px 0px;
+}
+
+.notification {
+    background: #24283b;
+    border: 1px solid #414868;
+    padding: 10px;
+}
+
+.notification-content {
+    color: #c0caf5;
+}
+
+.summary {
+    color: #7aa2f7;
+    font-weight: bold;
+}
+
+.body {
+    color: #a9b1d6;
+}
+
+/* Título y Botón "Limpiar Todo" */
+.widget-title {
+    color: #bb9af7;
+    margin: 8px;
+}
+
+.widget-title>button {
+    background: #15161e;
+    color: #7aa2f7;
+    border: 1px solid #414868;
+    padding: 4px 10px;
+}
+
+.widget-title>button:hover {
+    background: #7aa2f7;
+    color: #15161e;
+}
+
+/* Botón No Molestar (DND) */
+.widget-dnd {
+    background: #15161e;
+    padding: 6px 12px;
+    margin: 8px 0px;
+}
+
+.widget-dnd>switch {
+    background: #414868;
+    border-radius: 8px;
+}
+
+.widget-dnd>switch:checked {
+    background: #f7768e;
+}
+
+/* Deslizadores de Volumen / Brillo */
+.widget-volume,
+.widget-backlight {
+    background: #15161e;
+    padding: 8px 12px;
+    margin: 6px 0px;
+}
+
+scale trough highlight {
+    background: #7aa2f7;
+}
+
+/* Reproductor de Medios (MPRIS) */
+.widget-mpris {
+    background: #15161e;
+    padding: 10px;
+    margin: 8px 0px;
+}
