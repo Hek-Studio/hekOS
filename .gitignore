@@ -179,3 +179,13 @@ $RECYCLE.BIN/
 
 
 .gitconfig.local
+
+# Archivos temporales de sistema y editores
+.DS_Store
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Diccionarios o temporales de Neovim
+apps/.config/nvim/spell/
