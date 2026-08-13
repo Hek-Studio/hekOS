@@ -1,6 +1,6 @@
 
-[user]
-	name = Hek.sh
-	email = 301932612+hek-sh@users.noreply.github.com
+[include]
+	path = ~/.gitconfig.local
+
 [init]
 	defaultBranch = main
