@@ -14,3 +14,7 @@ function y
 	end
 	command rm -f -- "$tmp"
 end
+
+if test -d $HOME/.local/share/flatpak/exports/share
+    set -gx XDG_DATA_DIRS $HOME/.local/share/flatpak/exports/share /var/lib/flatpak/exports/share $XDG_DATA_DIRS
+end
