@@ -10,7 +10,7 @@ window {
 
 button {
     color: #c0caf5;
-    /* Foreground principal */
+    /* Main foreground */
     background-repeat: no-repeat;
     background-position: center 35%;
     background-size: 22%;
@@ -22,25 +22,25 @@ button {
     font-weight: bold;
     border-radius: 24px;
     border: 1px solid rgba(187, 154, 247, 0.15);
-    /* Sutil borde Púrpura */
+    /* Subtle purple border */
     outline-style: none;
     transition: all 0.3s cubic-bezier(.55, 0.0, .28, 1.682), box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-/* Estado Hover (Al pasar el cursor) */
+/* Hover State (when the cursor moves over it) */
 button:hover {
     color: #7dcfff;
-    /* Cyan brillante */
+    /* Bright cyan */
     background-color: rgba(65, 72, 104, 0.8);
     background-size: 28%;
     border-radius: 24px;
     border: 1px solid rgba(122, 162, 247, 0.6);
-    /* Borde Azul Tokyo */
+    /* Tokyo blue border */
     outline-style: none;
     box-shadow: 0 8px 25px 0 rgba(122, 162, 247, 0.25);
 }
 
-/* Estado Focus / Active */
+/* Focus / Active State */
 button:focus,
 button:active {
     background-color: rgba(187, 154, 247, 0.3);

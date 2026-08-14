@@ -1,18 +1,18 @@
-/* --- Estilos Generales SwayNC --- */
+/* --- General SwayNC Styles --- */
 * {
     font-family: "NotoSansM Nerd Font", sans-serif;
     font-size: 13px;
     border-radius: 12px;
 }
 
-/* Panel del Centro de Control */
+/* Control Center Panel */
 .control-center {
     background: rgba(26, 27, 38, 0.95);
     border: 1px solid #7aa2f7;
     padding: 12px;
 }
 
-/* Tarjetas de Notificación */
+/* Notification Cards */
 .notification-row {
     outline: none;
     margin: 6px 0px;
@@ -37,7 +37,7 @@
     color: #a9b1d6;
 }
 
-/* Título y Botón "Limpiar Todo" */
+/* Title and "Clear All" Button */
 .widget-title {
     color: #bb9af7;
     margin: 8px;
@@ -55,7 +55,7 @@
     color: #15161e;
 }
 
-/* Botón No Molestar (DND) */
+/* Do Not Disturb Button (DND) */
 .widget-dnd {
     background: #15161e;
     padding: 6px 12px;
@@ -71,7 +71,7 @@
     background: #f7768e;
 }
 
-/* Deslizadores de Volumen / Brillo */
+/* Volume / Brightness Sliders */
 .widget-volume,
 .widget-backlight {
     background: #15161e;
@@ -83,7 +83,7 @@ scale trough highlight {
     background: #7aa2f7;
 }
 
-/* Reproductor de Medios (MPRIS) */
+/* Media Player (MPRIS) */
 .widget-mpris {
     background: #15161e;
     padding: 10px;

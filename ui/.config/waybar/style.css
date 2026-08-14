@@ -1,4 +1,4 @@
-/* --- Estilos Generales --- */
+/* --- General Styles --- */
 * {
     border: none;
     border-radius: 0;
@@ -10,13 +10,13 @@
 
 window#waybar {
     background-color: rgba(26, 27, 38, 0.6);
-    /* Fondo de la barra transparente */
+    /* Transparent bar background */
     color: #c0caf5;
     transition-property: background-color;
     transition-duration: .5s;
 }
 
-/* --- Margen y Fondo estilo Píldora para cada módulo --- */
+/* --- Padding and pill-style background for each module --- */
 #pulseaudio,
 #clock,
 #clock.right,
@@ -28,7 +28,7 @@ window#waybar {
     border-radius: 10px;
 }
 
-/* --- Módulo Izquierdo: Audio --- */
+/* --- Left Module: Audio --- */
 #pulseaudio {
     color: #7aa2f7;
 }
@@ -37,7 +37,7 @@ window#waybar {
     color: #f7768e;
 }
 
-/* --- Módulo Central: Relojes y Workspaces --- */
+/* --- Center Module: Clock and Workspaces --- */
 #clock {
     color: #bb9af7;
     margin-right: 2px;
@@ -71,7 +71,7 @@ window#waybar {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* --- Módulo Derecho: Batería --- */
+/* --- Right Module: Battery --- */
 #battery {
     color: #9ece6a;
 }
