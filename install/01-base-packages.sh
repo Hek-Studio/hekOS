@@ -7,5 +7,6 @@ sudo pacman -S --needed --noconfirm \
   waybar rofi swaync wlogout \
   hyprland hypridle hyprlock brightnessctl \
   yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick \
-  xdg-desktop-portal-hyprland nwg-look gnome-themes-extra
+  xdg-desktop-portal-hyprland nwg-look gnome-themes-extra \
+  gcc make ripgrep fd tree-sitter-cli unzip neovim wl-clipboard
 print_success "Base packages installed."

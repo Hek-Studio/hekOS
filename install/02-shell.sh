@@ -35,6 +35,9 @@ backup_if_exists "$HOME/.config/nvim"
 backup_if_exists "$HOME/.config/yazi"
 backup_if_exists "$HOME/.config/fish"
 
+print_info "Cleaning up old Neovim share data..."
+rm -rf ~/.local/share/nvim
+
 print_info "Applying symlinks using Stow for shell and apps..."
 stow -d . -t ~ shell/
 stow -d . -t ~ apps/
