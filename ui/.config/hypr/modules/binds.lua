@@ -6,6 +6,7 @@
 local terminal    = "kitty"
 local fileManager = "kitty -e yazi"
 local menu        = "~/.config/rofi/launcher.sh"
+local editor      = "kitty -e nvim"
 
 
 ---------------------
@@ -16,6 +17,7 @@ local mainMod   = "SUPER"         -- Sets "Windows" key as main modifier
 local secondMod = "SUPER + SHIFT" -- Sets "Alt" key as secondary modifier
 
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(fileManager))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(secondMod .. " + Q", hl.dsp.exec_cmd("wlogout"))
