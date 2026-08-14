@@ -4,16 +4,6 @@ source "$(dirname "$0")/utils.sh"
 
 print_info "Applying UI configurations via Stow..."
 
-backup_if_exists() {
-    local target="$1"
-    if [ -e "$target" ] && [ ! -L "$target" ]; then
-        print_warning "Existing folder found at $target. Backing it up..."
-        mkdir -p "$REPO_ROOT/backups"
-        mv "$target" "$REPO_ROOT/backups/"
-        print_success "Backed up $(basename "$target") to $(basename "$REPO_ROOT")/backups/"
-    fi
-}
-
 # Backup entire UI directories
 backup_if_exists "$HOME/.config/hypr"
 backup_if_exists "$HOME/.config/waybar"

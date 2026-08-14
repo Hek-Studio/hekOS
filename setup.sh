@@ -146,6 +146,11 @@ for m in "${SUMMARY_SKIPPED[@]}"; do echo -e "  ${YELLOW}[SKIPPED]${NC} $m"; don
 echo ""
 print_info "Full log saved to: $LOG_FILE"
 
+if [ "${#SUMMARY_FAILED[@]}" -gt 0 ]; then
+    echo ""
+    print_warning "Some modules failed. Check the log above (or $LOG_FILE), fix the underlying issue, and re-run ./setup.sh — modules that already completed are safe to skip and won't be repeated."
+fi
+
 echo ""
 echo "======================================================"
 echo " 🎉 hekOS $VERSION installation process finished!           "

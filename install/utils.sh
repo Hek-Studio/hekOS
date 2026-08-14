@@ -15,6 +15,26 @@ print_success() { echo -e "${GREEN}[OK]${NC} $1"; }
 print_warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
 print_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
+# Moves an existing real file/dir out of the way before stow links over it.
+# Safe to call repeatedly: if a previous backup with the same name is still
+# there, the new one gets a timestamp suffix instead of colliding with it.
+backup_if_exists() {
+    local target="$1"
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+        local name dest
+        name="$(basename "$target")"
+        dest="$REPO_ROOT/backups/$name"
+        if [ -e "$dest" ]; then
+            dest="$REPO_ROOT/backups/${name}-$(date +%Y%m%d-%H%M%S)"
+        fi
+
+        print_warning "Existing folder/file found at $target. Backing it up..."
+        mkdir -p "$REPO_ROOT/backups"
+        mv "$target" "$dest"
+        print_success "Backed up $name to $(basename "$REPO_ROOT")/backups/$(basename "$dest")"
+    fi
+}
+
 prompt_app_yn() {
     local prompt_text="$1"
     local default_val="${2:-y}"
@@ -32,6 +52,28 @@ prompt_app_yn() {
             * ) echo "Please answer yes (y) or no (n).";;
         esac
     done
+}
+
+# True if $app is already present via pacman/AUR, or via the Flatpak ID that
+# $fallback_func (if given) maps it to — so a rerun doesn't reinstall through
+# a different channel than a previous run used.
+app_already_installed() {
+    local app="$1"
+    local fallback_func="${2:-}"
+
+    if pacman -Qq "$app" &> /dev/null; then
+        return 0
+    fi
+
+    if [ -n "$fallback_func" ]; then
+        local flatpak_id
+        flatpak_id=$($fallback_func "$app")
+        if [ -n "$flatpak_id" ] && flatpak info "$flatpak_id" &> /dev/null; then
+            return 0
+        fi
+    fi
+
+    return 1
 }
 
 # Tries a Flatpak fallback for $app via $fallback_func, if one is configured.
@@ -71,6 +113,11 @@ install_pacman_apps() {
         local app="${item%%:*}"
         local desc="${item#*:}"
 
+        if app_already_installed "$app" "$fallback_func"; then
+            print_success "$app is already installed, skipping."
+            continue
+        fi
+
         if ! prompt_app_yn "Do you want to install $app ($desc) via pacman?" "y"; then
             print_warning "Skipping $app."
             continue
@@ -109,6 +156,11 @@ install_aur_apps() {
     for item in "${apps_ref[@]}"; do
         local app="${item%%:*}"
         local desc="${item#*:}"
+
+        if app_already_installed "$app" "$fallback_func"; then
+            print_success "$app is already installed, skipping."
+            continue
+        fi
 
         if ! prompt_app_yn "Do you want to install $app ($desc) via paru (AUR)?" "y"; then
             print_warning "Skipping $app."

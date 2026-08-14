@@ -22,28 +22,29 @@ else
     print_info "shell/.gitconfig.local already exists, skipping prompt."
 fi
 
-# Function to backup entire directories if they exist and are not symlinks
-backup_if_exists() {
-    local target="$1"
-    if [ -e "$target" ] && [ ! -L "$target" ]; then
-        print_warning "Existing folder/file found at $target. Backing it up..."
-        mkdir -p "$REPO_ROOT/backups"
-        # Move the entire directory/file to backups
-        mv "$target" "$REPO_ROOT/backups/"
-        print_success "Backed up $(basename "$target") to $(basename "$REPO_ROOT")/backups/"
-    fi
-}
-
-# Check entire configuration directories before stowing
+# Check entire configuration directories/files before stowing
 backup_if_exists "$HOME/.config/kitty"
 backup_if_exists "$HOME/.config/nvim"
 backup_if_exists "$HOME/.config/yazi"
 backup_if_exists "$HOME/.config/fish"
+backup_if_exists "$HOME/.gitconfig"
 
 print_info "Cleaning up old Neovim share data..."
 rm -rf ~/.local/share/nvim
 
 print_info "Applying symlinks using Stow for shell and apps..."
-stow -d . -t ~ shell/
-stow -d . -t ~ apps/
+stow_failed=0
+if ! stow -d . -t ~ shell/; then
+    print_warning "Failed to stow shell/ (see conflicts above)."
+    stow_failed=1
+fi
+if ! stow -d . -t ~ apps/; then
+    print_warning "Failed to stow apps/ (see conflicts above)."
+    stow_failed=1
+fi
+
+if [ "$stow_failed" -eq 1 ]; then
+    print_error "Shell/apps configuration finished with errors."
+    exit 1
+fi
 print_success "Shell and apps configured."
