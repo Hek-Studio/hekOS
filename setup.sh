@@ -82,6 +82,7 @@ get_module_description() {
         "07-sddm.sh")          echo "SDDM Display Manager & Astronaut theme";;
         "08-user-apps.sh")     echo "User Applications (Pacman, AUR and Flatpak interactive)";;
         "09-dev-apps.sh")      echo "Developer Applications (Pacman, AUR and Flatpak interactive)";;
+        "10-dev-tools.sh")     echo "Developer Tools (Docker, Volta)";;
         *)                     echo "Additional module ($1)";;
     esac
 }
