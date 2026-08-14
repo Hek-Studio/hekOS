@@ -7,48 +7,58 @@ local terminal    = "kitty"
 local fileManager = "kitty -e yazi"
 local menu        = "~/.config/rofi/launcher.sh"
 local editor      = "kitty -e nvim"
-
+local browser     = "firefox"
 
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
 
-local mainMod   = "SUPER"         -- Sets "Windows" key as main modifier
-local secondMod = "SUPER + SHIFT" -- Sets "Alt" key as secondary modifier
+local mainMod     = "SUPER" -- Sets "Windows" key as main modifier
+local secondMod   = "SUPER + SHIFT"
+local thirdMod    = "SUPER + SHIFT + CTRL"
 
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(secondMod .. " + Q", hl.dsp.exec_cmd("wlogout"))
+hl.bind(thirdMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 
-hl.bind(secondMod .. " + M",
+hl.bind(thirdMod .. " + Q",
     hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit")) -- dwindle only
+-- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
+hl.bind(secondMod .. " + S", hl.dsp.layout("togglesplit")) -- dwindle only
 hl.bind(mainMod .. " + W + R", hl.dsp.exec_cmd("~/hekOS/ui/.config/waybar/scripts/launch.sh"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
 
 -- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
+hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
+hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
+hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
 
--- Switch workspaces with mainMod + [0-9]
+hl.bind(secondMod .. " + h", hl.dsp.window.move({ direction = "left" }))
+hl.bind(secondMod .. " + l", hl.dsp.window.move({ direction = "right" }))
+hl.bind(secondMod .. " + k", hl.dsp.window.move({ direction = "up" }))
+hl.bind(secondMod .. " + j", hl.dsp.window.move({ direction = "down" }))
+
+hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(secondMod .. " + M", hl.dsp.window.fullscreen({ mode = 'maximized' }))
+hl.bind(secondMod .. " + F", hl.dsp.window.fullscreen())
+
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
 for i = 1, 10 do
     local key = i % 10 -- 10 maps to key 0
     hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+    hl.bind(secondMod .. " + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
 -- Example special workspace (scratchpad)
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(thirdMod .. " + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Scroll through existing workspaces with mainMod + scroll
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
@@ -75,3 +85,14 @@ hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+
+
+---------------------
+---- EXTRA TOOLS ----
+---------------------
+hl.bind(mainMod .. " + P",
+    hl.dsp.exec_cmd(
+        'grim -g "$(slurp)" - | wl-copy && notify-send "Screenshot" "Area copied to clipboard" -i camera-photo'))
+
+hl.bind(secondMod .. " + P",
+    hl.dsp.exec_cmd('grim - | wl-copy && notify-send "Screenshot" "Full screen copied to clipboard" -i camera-photo'))
