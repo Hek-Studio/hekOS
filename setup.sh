@@ -81,6 +81,7 @@ get_module_description() {
         "06-flatpak.sh")       echo "Flatpak & Flathub";;
         "07-sddm.sh")          echo "SDDM Display Manager & Astronaut theme";;
         "08-user-apps.sh")     echo "User Applications (Pacman, AUR and Flatpak interactive)";;
+        "09-dev-apps.sh")      echo "Developer Applications (Pacman, AUR and Flatpak interactive)";;
         *)                     echo "Additional module ($1)";;
     esac
 }
