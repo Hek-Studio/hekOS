@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 source "$(dirname "$0")/utils.sh"
 
 if command -v paru &> /dev/null; then

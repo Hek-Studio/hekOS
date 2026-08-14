@@ -46,7 +46,6 @@ Everything is kept in a single repo and applied with `stow`, which makes the set
 hekOS/
 ├── setup.sh
 ├── LICENSE
-├── notes.txt
 ├── install/
 │   ├── 01-base-packages.sh
 │   ├── 02-shell.sh
@@ -55,6 +54,9 @@ hekOS/
 │   ├── 05-awww.sh
 │   ├── 06-flatpak.sh
 │   ├── 07-sddm.sh
+│   ├── 08-user-apps.sh
+│   ├── 09-dev-apps.sh
+│   ├── 10-dev-tools.sh
 │   └── utils.sh
 ├── shell/
 │   └── .config/
@@ -70,6 +72,11 @@ hekOS/
 │       └── hekOS.conf
 └── README.md
 ```
+
+Running `setup.sh` also creates two local, git-ignored directories the first time you need them:
+
+- `backups/` - existing configs found in `~/.config` are moved here before a module symlinks its own dotfiles over them.
+- `logs/` - a timestamped log of every install run, for troubleshooting a failed or partial installation.
 
 ## Requirements
 
@@ -108,6 +115,11 @@ The project is divided into modular scripts inside the `install` directory:
 - `05-awww.sh` - installs the wallpaper daemon and applies the default background
 - `06-flatpak.sh` - enables Flatpak and Flathub
 - `07-sddm.sh` - installs SDDM and links the system config
+- `08-user-apps.sh` - interactive install of everyday apps (browsers, Bitwarden, Spotify, etc.)
+- `09-dev-apps.sh` - interactive install of developer apps (VS Code, DBeaver, Postman, etc.)
+- `10-dev-tools.sh` - optional Docker and Volta (Node.js toolchain manager) setup
+
+Modules 08-10 are interactive per-app installers: each app is tried via `pacman` first, then falls back to the AUR (`paru`), then to Flatpak if neither is available — you're prompted before each attempt.
 
 This modular design makes the installation easier to understand and safer to customize.
 

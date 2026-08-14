@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Import utility functions and colors
 source "$(dirname "$0")/utils.sh"

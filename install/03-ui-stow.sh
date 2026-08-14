@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 source "$(dirname "$0")/utils.sh"
 
 print_info "Applying UI configurations via Stow..."
@@ -7,9 +8,9 @@ backup_if_exists() {
     local target="$1"
     if [ -e "$target" ] && [ ! -L "$target" ]; then
         print_warning "Existing folder found at $target. Backing it up..."
-        mkdir -p "$HOME/hekOS/backups"
-        mv "$target" "$HOME/hekOS/backups/"
-        print_success "Backed up $(basename "$target") to hekOS/backups/"
+        mkdir -p "$REPO_ROOT/backups"
+        mv "$target" "$REPO_ROOT/backups/"
+        print_success "Backed up $(basename "$target") to $(basename "$REPO_ROOT")/backups/"
     fi
 }
 

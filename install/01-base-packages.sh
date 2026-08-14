@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 source "$(dirname "$0")/utils.sh"
 
 print_info "Installing essential system packages..."

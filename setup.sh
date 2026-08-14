@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Colors for terminal output
 GREEN='\033[0;32m'
@@ -53,6 +54,16 @@ prompt_yn() {
 
 VERSION=$(get_version)
 
+# Resolve the repo root from this script's own location, not the caller's cwd
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+INSTALL_DIR="$SCRIPT_DIR/install"
+LOG_DIR="$SCRIPT_DIR/logs"
+LOG_FILE="$LOG_DIR/install-$(date +%Y%m%d-%H%M%S).log"
+mkdir -p "$LOG_DIR"
+
+# Mirror all output (stdout+stderr) to a log file as well as the terminal
+exec > >(tee -a "$LOG_FILE") 2>&1
+
 clear
 echo "=================================================="
 echo "       🚀 hekOS $VERSION Modular Installer        "
@@ -62,8 +73,11 @@ echo ""
 # --- SYSTEM UPDATE (Default: Yes) ---
 if prompt_yn "Do you want to update the system first? (Recommended: sudo pacman -Syu)" "y"; then
     print_info "Updating system packages..."
-    sudo pacman -Syu --noconfirm
-    print_success "System updated successfully."
+    if sudo pacman -Syu --noconfirm; then
+        print_success "System updated successfully."
+    else
+        print_warning "System update failed. Continuing anyway — you may want to resolve this manually."
+    fi
 else
     print_warning "Skipping system update."
 fi
@@ -88,25 +102,33 @@ get_module_description() {
 }
 
 # --- EXECUTE MODULES ---
-INSTALL_DIR="./install"
+declare -a SUMMARY_OK=()
+declare -a SUMMARY_FAILED=()
+declare -a SUMMARY_SKIPPED=()
 
 if [ -d "$INSTALL_DIR" ]; then
     for script in "$INSTALL_DIR"/*.sh; do
         if [ -f "$script" ]; then
             script_name=$(basename "$script")
-            
+
             # Skip the helper file so it's not treated as an install module
             if [ "$script_name" = "utils.sh" ]; then
                 continue
             fi
 
             module_desc=$(get_module_description "$script_name")
-            
+
             echo -e "${BLUE}──────────────────────────────────────────────────────────${NC}"
             if prompt_yn "Install $module_desc?" "y"; then
-                bash "$script"
+                if bash "$script"; then
+                    SUMMARY_OK+=("$script_name — $module_desc")
+                else
+                    print_warning "$script_name failed. Continuing with the next module..."
+                    SUMMARY_FAILED+=("$script_name — $module_desc")
+                fi
             else
                 print_warning "Skipping $script_name."
+                SUMMARY_SKIPPED+=("$script_name — $module_desc")
             fi
         fi
     done
@@ -114,6 +136,15 @@ else
     echo -e "${RED}[ERROR]${NC} The 'install/' modules directory was not found."
     exit 1
 fi
+
+echo ""
+echo -e "${BLUE}──────────────────────────────────────────────────────────${NC}"
+echo "Installation summary:"
+for m in "${SUMMARY_OK[@]}"; do echo -e "  ${GREEN}[OK]${NC}      $m"; done
+for m in "${SUMMARY_FAILED[@]}"; do echo -e "  ${RED}[FAILED]${NC}  $m"; done
+for m in "${SUMMARY_SKIPPED[@]}"; do echo -e "  ${YELLOW}[SKIPPED]${NC} $m"; done
+echo ""
+print_info "Full log saved to: $LOG_FILE"
 
 echo ""
 echo "======================================================"

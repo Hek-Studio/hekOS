@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 source "$(dirname "$0")/utils.sh"
 
 print_info "Configuring SDDM display manager..."
@@ -16,7 +17,7 @@ print_info "Ensuring SDDM configuration directory exists..."
 sudo mkdir -p /etc/sddm.conf.d
 
 print_info "Linking hekOS.conf to SDDM system configuration..."
-sudo ln -sf ~/hekOS/system/sddm/hekOS.conf /etc/sddm.conf.d/hekOS.conf
+sudo ln -sf "$REPO_ROOT/system/sddm/hekOS.conf" /etc/sddm.conf.d/hekOS.conf
 
 print_info "Enabling SDDM service..."
 sudo systemctl enable sddm.service

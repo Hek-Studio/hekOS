@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Import utility functions and colors
 source "$(dirname "$0")/utils.sh"
@@ -23,7 +24,7 @@ pacman_apps=(
     "code:Free and open-source code editor developed by Microsoft (Code-OSS)"
     "cursor-bin:The AI-first code editor built for programming with AI assistance"
 )
-install_pacman_apps pacman_apps
+install_pacman_apps pacman_apps get_flatpak_fallback
 
 # 2. AUR developer applications with Flatpak fallback
 aur_apps=(

@@ -191,3 +191,4 @@ $RECYCLE.BIN/
 apps/.config/nvim/spell/
 
 backups/
+logs/

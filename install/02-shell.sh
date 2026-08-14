@@ -1,11 +1,16 @@
 #!/bin/bash
+set -euo pipefail
 source "$(dirname "$0")/utils.sh"
 
 print_info "Configuring Shell environment and Apps..."
 
 if ! command -v starship &> /dev/null; then
     print_info "Installing Starship prompt..."
-    curl -sS https://starship.rs/install.sh | sh -s -- -y
+    if curl -sS https://starship.rs/install.sh | sh -s -- -y; then
+        print_success "Starship installed."
+    else
+        print_warning "Starship installation failed. Continuing with shell setup..."
+    fi
 fi
 
 if [ ! -f "shell/.gitconfig.local" ]; then
@@ -22,10 +27,10 @@ backup_if_exists() {
     local target="$1"
     if [ -e "$target" ] && [ ! -L "$target" ]; then
         print_warning "Existing folder/file found at $target. Backing it up..."
-        mkdir -p "$HOME/hekOS/backups"
+        mkdir -p "$REPO_ROOT/backups"
         # Move the entire directory/file to backups
-        mv "$target" "$HOME/hekOS/backups/"
-        print_success "Backed up $(basename "$target") to hekOS/backups/"
+        mv "$target" "$REPO_ROOT/backups/"
+        print_success "Backed up $(basename "$target") to $(basename "$REPO_ROOT")/backups/"
     fi
 }
 

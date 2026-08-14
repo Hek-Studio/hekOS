@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Import utility functions and colors
 source "$(dirname "$0")/utils.sh"
@@ -28,7 +29,7 @@ pacman_apps=(
     "solaar:Linux device manager for Logitech devices connected via USB or Bluetooth receiver"
 )
 
-install_pacman_apps pacman_apps
+install_pacman_apps pacman_apps get_flatpak_fallback
 
 aur_apps=(
     "feishin:Modern self-hosted music player compatible with Subsonic APIs"
