@@ -215,7 +215,10 @@ install_aur_apps() {
         if pacman -Qq "$app" &> /dev/null; then
             paru_cmd=(paru -S "$app")
         fi
-        if retry_command "${paru_cmd[@]}"; then
+        # Interactive on purpose (PKGBUILD review) — no retry_command here,
+        # since a "no" to one of paru's own prompts must not be treated as a
+        # transient failure worth retrying.
+        if "${paru_cmd[@]}"; then
             print_success "$app installed via AUR."
             continue
         fi
