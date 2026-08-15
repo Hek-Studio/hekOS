@@ -10,7 +10,7 @@ retry_command sudo pacman -S --needed --noconfirm \
   yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick mpv imv \
   xdg-desktop-portal-hyprland nwg-look gnome-themes-extra \
   qt5-wayland qt6-wayland \
-  gcc make ripgrep fd tree-sitter-cli unzip neovim \
+  gcc make ripgrep fd tree-sitter-cli unzip neovim lazygit \
   wl-clipboard grim slurp \
   ttf-jetbrains-mono-nerd
 print_success "Base packages installed."
