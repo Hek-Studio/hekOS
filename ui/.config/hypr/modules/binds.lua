@@ -4,11 +4,10 @@
 
 -- Set programs that you use
 local terminal    = "kitty"
-local fileManager = "kitty -e yazi"
+local fileManager = terminal .. " -e yazi"
 local menu        = "~/.config/rofi/launcher.sh"
-local editor      = "kitty -e nvim"
-local browser     = "firefox"
-
+local editor      = terminal .. " -e nvim"
+local browser="if command -v zen-browser >/dev/null 2>&1; then zen-browser; else firefox; fi"
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
