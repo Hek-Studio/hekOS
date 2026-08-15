@@ -189,6 +189,7 @@ $RECYCLE.BIN/
 
 # Diccionarios o temporales de Neovim
 apps/.config/nvim/spell/
+apps/.config/nvim/lua/custom/plugins/
 
 backups/
 logs/

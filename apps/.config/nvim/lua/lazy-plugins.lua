@@ -1,6 +1,7 @@
 -- lua/lazy-plugins.lua
 require("lazy").setup({
-    { import = "plugins" },
+    { import = "core.plugins" },
+    { import = "custom.plugins" },
 }, {
     ui = {
         icons = vim.g.have_nerd_font and {} or {
