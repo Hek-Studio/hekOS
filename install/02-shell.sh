@@ -30,7 +30,17 @@ backup_if_exists "$HOME/.config/fish"
 backup_if_exists "$HOME/.gitconfig"
 
 print_info "Cleaning up old Neovim share data..."
-rm -rf ~/.local/share/nvim
+marker_dir="$HOME/.config/hekOS"
+marker_file="$marker_dir/02-shell.initialized"
+
+if [ ! -f "$marker_file" ]; then
+    print_info "Cleaning up old Neovim share data (first run)..."
+    rm -rf "$HOME/.local/share/nvim"
+    mkdir -p "$marker_dir"
+    touch "$marker_file"
+else
+    print_info "Skipping Neovim cleanup; already performed on first run."
+fi
 
 print_info "Applying symlinks using Stow for shell and apps..."
 stow_failed=0
