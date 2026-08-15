@@ -9,7 +9,7 @@ print_info "Starting Docker and Volta installation..."
 # 1. Docker Installation & Configuration
 if prompt_app_yn "Do you want to install Docker and Docker Compose?" "y"; then
     print_info "Installing Docker..."
-    if sudo pacman -S --needed --noconfirm docker docker-compose; then
+    if retry_command sudo pacman -S --needed --noconfirm docker docker-compose; then
         print_success "Docker packages installed via pacman."
         
         print_info "Enabling and starting Docker service..."
@@ -36,7 +36,7 @@ if prompt_app_yn "Do you want to install Volta (Node.js toolchain manager)?" "y"
         print_success "Volta is already installed."
     else
         print_info "Installing Volta via official script..."
-        if curl https://get.volta.sh | bash; then
+        if retry_command bash -c 'curl https://get.volta.sh | bash'; then
             print_success "Volta installed successfully."
         else
             print_warning "Failed to install Volta."

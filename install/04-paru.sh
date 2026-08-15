@@ -8,16 +8,18 @@ print_info "Checking AUR helper (paru)..."
 
 if command -v paru &> /dev/null; then
     print_success "Paru is already installed. Skipping installation."
-elif sudo pacman -S --needed --noconfirm paru; then
+elif retry_command sudo pacman -S --needed --noconfirm paru; then
     print_success "Paru installed via pacman."
 else
     print_info "Paru not available via pacman. Building it from the AUR instead..."
 
-    sudo pacman -S --needed --noconfirm base-devel git
+    retry_command sudo pacman -S --needed --noconfirm base-devel git
 
-    if git clone https://aur.archlinux.org/paru.git /tmp/paru; then
+    # Clean up before each attempt: a leftover dir from a failed clone would
+    # otherwise make every retry fail immediately with "already exists".
+    if retry_command bash -c 'rm -rf /tmp/paru && git clone https://aur.archlinux.org/paru.git /tmp/paru'; then
         trap 'rm -rf /tmp/paru' EXIT
-        (cd /tmp/paru && makepkg -si --noconfirm)
+        (cd /tmp/paru && retry_command makepkg -si --noconfirm)
         print_success "Paru installed successfully."
     else
         print_error "Failed to clone paru repository."

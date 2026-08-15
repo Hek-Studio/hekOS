@@ -6,7 +6,7 @@ print_info "Configuring Shell environment and Apps..."
 
 if ! command -v starship &> /dev/null; then
     print_info "Installing Starship prompt..."
-    if curl -sS https://starship.rs/install.sh | sh -s -- -y; then
+    if retry_command bash -c 'curl -sS https://starship.rs/install.sh | sh -s -- -y'; then
         print_success "Starship installed."
     else
         print_warning "Starship installation failed. Continuing with shell setup..."

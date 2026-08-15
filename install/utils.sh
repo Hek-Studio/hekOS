@@ -35,6 +35,32 @@ backup_if_exists() {
     fi
 }
 
+# Retries a command up to 3 times with a short pause between attempts.
+# Helps with transient network blips or one-off corruption — it is not a
+# substitute for fixing flaky hardware if failures keep recurring.
+retry_command() {
+    local attempts=3
+    local delay=4
+    local n=1
+    until "$@"; do
+        if [ "$n" -ge "$attempts" ]; then
+            return 1
+        fi
+        print_warning "Attempt $n/$attempts failed, retrying in ${delay}s..."
+        sleep "$delay"
+        n=$((n + 1))
+    done
+}
+
+# True if pacman package $app is installed AND all the files it owns are
+# still present on disk. A package can pass `pacman -Qq` (DB says installed)
+# while its files got truncated/left incomplete by an earlier interrupted
+# install — this catches that case so it doesn't get silently skipped forever.
+pacman_app_healthy() {
+    local app="$1"
+    pacman -Qq "$app" &> /dev/null && pacman -Qk --quiet "$app" &> /dev/null
+}
+
 prompt_app_yn() {
     local prompt_text="$1"
     local default_val="${2:-y}"
@@ -54,15 +80,22 @@ prompt_app_yn() {
     done
 }
 
-# True if $app is already present via pacman/AUR, or via the Flatpak ID that
-# $fallback_func (if given) maps it to — so a rerun doesn't reinstall through
-# a different channel than a previous run used.
+# True if $app is already present and healthy via pacman/AUR, or via the
+# Flatpak ID that $fallback_func (if given) maps it to — so a rerun doesn't
+# reinstall through a different channel than a previous run used. If pacman
+# knows about the package but its files are broken, this returns false (and
+# warns) so the caller goes through the normal install path to repair it,
+# instead of skipping it forever.
 app_already_installed() {
     local app="$1"
     local fallback_func="${2:-}"
 
     if pacman -Qq "$app" &> /dev/null; then
-        return 0
+        if pacman_app_healthy "$app"; then
+            return 0
+        fi
+        print_warning "$app is installed but some of its files are missing or corrupted; will reinstall."
+        return 1
     fi
 
     if [ -n "$fallback_func" ]; then
@@ -90,7 +123,7 @@ try_flatpak_fallback() {
 
     if prompt_app_yn "Do you want to install $app using Flatpak instead?" "y"; then
         print_info "Installing $app via Flatpak ($flatpak_id)..."
-        if flatpak install -y flathub "$flatpak_id"; then
+        if retry_command flatpak install -y flathub "$flatpak_id"; then
             print_success "$app installed successfully via Flatpak fallback."
             return 0
         else
@@ -124,7 +157,13 @@ install_pacman_apps() {
         fi
 
         print_info "Installing $app..."
-        if sudo pacman -S --needed --noconfirm "$app"; then
+        # Present-but-broken packages need --needed dropped, or pacman/paru
+        # would just skip them again based on version alone.
+        local -a pacman_cmd=(sudo pacman -S --needed --noconfirm "$app")
+        if pacman -Qq "$app" &> /dev/null; then
+            pacman_cmd=(sudo pacman -S --noconfirm "$app")
+        fi
+        if retry_command "${pacman_cmd[@]}"; then
             print_success "$app installed via pacman."
             continue
         fi
@@ -132,7 +171,11 @@ install_pacman_apps() {
 
         if command -v paru &> /dev/null; then
             print_info "Trying $app via paru (AUR)..."
-            if paru -S --needed --noconfirm "$app"; then
+            local -a paru_cmd=(paru -S --needed --noconfirm "$app")
+            if pacman -Qq "$app" &> /dev/null; then
+                paru_cmd=(paru -S --noconfirm "$app")
+            fi
+            if retry_command "${paru_cmd[@]}"; then
                 print_success "$app installed via AUR."
                 continue
             fi
@@ -168,7 +211,11 @@ install_aur_apps() {
         fi
 
         print_info "Installing $app (review PKGBUILD if prompted)..."
-        if paru -S --needed "$app"; then
+        local -a paru_cmd=(paru -S --needed "$app")
+        if pacman -Qq "$app" &> /dev/null; then
+            paru_cmd=(paru -S "$app")
+        fi
+        if retry_command "${paru_cmd[@]}"; then
             print_success "$app installed via AUR."
             continue
         fi

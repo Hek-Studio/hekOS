@@ -4,7 +4,7 @@ source "$(dirname "$0")/utils.sh"
 
 if command -v paru &> /dev/null; then
     print_info "Installing awww wallpaper daemon..."
-    paru -S --needed --noconfirm awww
+    retry_command paru -S --needed --noconfirm awww
     print_success "awww installed."
 
     print_info "Setting initial wallpaper with awww..."
