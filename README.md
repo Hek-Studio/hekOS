@@ -151,14 +151,26 @@ The base install includes several components that are important for a polished W
 - `xdg-desktop-portal-hyprland`
 - `nwg-look`
 - `gnome-themes-extra`
+- `chromium`, `bluetui`, `pavucontrol` - browser and quick-access tools wired into Waybar's clock, network, and bluetooth modules
+- `lazygit` - terminal UI for git, available anywhere from the shell
 
 ## Wallpaper setup
 
-The project includes support for the `awww` wallpaper daemon. Once installed, you can set a wallpaper with:
+The project uses the `awww` wallpaper daemon. Hyprland's autostart config starts `awww-daemon` and applies the default wallpaper automatically every time you log in — no manual step needed. To change it yourself at any point:
 
 ```bash
 awww img ~/.config/hypr/wallpapers/wallpaper-001.png
 ```
+
+## Keybinds
+
+The full list of Hyprland keybinds is available two ways once the shell and UI dotfiles are applied:
+
+```bash
+hekOS keybinds
+```
+
+or press `SUPER + I` for the same list as a Rofi popup, styled with your Rofi theme.
 
 ## SDDM
 
@@ -178,11 +190,33 @@ After the installation finishes, a reboot is recommended so all desktop componen
 sudo reboot
 ```
 
+## Troubleshooting
+
+If a module fails during the initial install, `setup.sh` prints it as `FAILED` in the summary at the end and keeps going with the rest — it won't leave you stuck mid-install. Most failures come down to a flaky network connection or a stale package cache/mirror during a big install session, not a real problem with the script.
+
+If that happens:
+
+1. Check the log for that run under `logs/install-<timestamp>.log` for the actual error.
+2. **Reboot, then re-run `./setup.sh`.** This is the single most effective fix for connection- or cache-related failures, and it's safe: every module is idempotent, so anything that already installed correctly is skipped, and only what actually failed gets retried.
+3. If it keeps failing on the same step after a reboot, that's when it's worth reading the log closely — it's more likely a real issue at that point (a wrong package name, a broken mirror, etc.) than a transient one.
+
 ## Notes
 
 - This project is optimized for Arch and CachyOS.
 - It is intentionally opinionated and built around a specific desktop workflow.
 - The installation is meant to be easy to modify and extend as your setup evolves.
+
+## Releasing (maintainers)
+
+`scripts/release.sh` reads the Conventional Commits (`feat:`, `fix:`, `refactor:`, `chore:`, `docs:`, ...) since the last tag, suggests the next semver version, and writes a `CHANGELOG.md` entry:
+
+```bash
+./scripts/release.sh
+```
+
+It shows the suggested version and the categorized commit list first, lets you accept it or type a different one, then writes the changelog entry so you can review/edit it before anything is committed. From there it separately asks — one confirmation at a time — whether to commit + tag, push, and create a GitHub Release (via `gh`, if installed). Nothing gets pushed or tagged without an explicit yes at each step.
+
+Since it groups commits by their raw prefix, treat the generated changelog as a draft — trim or reword entries before publishing, especially on a repo with a long history.
 
 ## License
 
