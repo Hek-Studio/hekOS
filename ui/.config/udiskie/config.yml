@@ -1,0 +1,8 @@
+program_options:
+  file_manager: kitty -e yazi
+  notify: true
+  automount: true
+  tray: false
+
+notification_actions:
+  device_mounted: [browse]
