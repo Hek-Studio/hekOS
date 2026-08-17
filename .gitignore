@@ -189,7 +189,10 @@ $RECYCLE.BIN/
 
 # Diccionarios o temporales de Neovim
 apps/.config/nvim/spell/
-apps/.config/nvim/lua/custom/plugins/
+apps/.config/nvim/lua/custom/*
+!apps/.config/nvim/lua/custom/plugins/
+apps/.config/nvim/lua/custom/plugins/*
+!apps/.config/nvim/lua/custom/plugins/example.lua
 apps/.config/nvim/lazy-lock.json
 
 backups/
