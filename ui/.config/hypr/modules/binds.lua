@@ -98,8 +98,5 @@ hl.bind(secondMod .. " + P",
     hl.dsp.exec_cmd('grim - | wl-copy && notify-send "Screenshot" "Full screen copied to clipboard" -i camera-photo'))
 
 hl.bind(
-	mainMod .. " + C",
-	hl.dsp.exec_cmd(
-		"cliphist list | rofi -dmenu -i -p 'Clipboard' -theme ~/.config/rofi/style.rasi | cliphist decode | wl-copy"
-	)
+	mainMod .. " + C", hl.dsp.exec_cmd("~/.config/hypr/scripts/cliphist-rofi.sh")
 )
