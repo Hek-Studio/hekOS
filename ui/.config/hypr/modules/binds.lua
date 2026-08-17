@@ -25,8 +25,6 @@ hl.bind(secondMod .. " + Q", hl.dsp.exec_cmd("wlogout"))
 hl.bind(thirdMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("~/.config/hypr/scripts/hekos-keybinds.sh --rofi"))
 
---title=Keybinds ~/.config/hypr/scripts/hekos-keybinds.sh
-
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 
 hl.bind(thirdMod .. " + Q",
