@@ -126,7 +126,6 @@ The project is divided into modular scripts inside the `install` directory:
 
 Modules 08-10 are interactive per-app installers: each app is tried via `pacman` first, then falls back to the AUR (`paru`), then to Flatpak if neither is available — you're prompted before each attempt.
 
-`11-biometrics.sh` only installs the packages and prints the manual steps to enroll and enable them (`fprintd-enroll`, `howdy add`) — it does not touch PAM (`/etc/pam.d/...`) automatically. Wiring fingerprint/face unlock into actual login or `sudo` authentication means editing PAM yourself, and a bad PAM edit can lock you out of your session — the module's own output reminds you to keep a root shell open while you test it.
 
 This modular design makes the installation easier to understand and safer to customize.
 
