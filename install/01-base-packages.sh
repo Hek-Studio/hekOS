@@ -12,8 +12,13 @@ retry_command sudo pacman -S --needed --noconfirm \
   qt5-wayland qt6-wayland \
   gcc make ripgrep fd tree-sitter-cli unzip neovim lazygit \
   wl-clipboard grim slurp cliphist libnotify \
-  ttf-jetbrains-mono-nerd
+  ttf-jetbrains-mono-nerd \
+  xdg-user-dirs
 print_success "Base packages installed."
+
+print_info "Creating home directories..."
+xdg-user-dirs-update
+print_success "Home directories created."
 
 print_info "Enabling power management (tlp)..."
 # tlp and power-profiles-daemon both try to manage the same power settings and
