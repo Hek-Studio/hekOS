@@ -13,7 +13,7 @@ retry_command sudo pacman -S --needed --noconfirm \
   gcc make ripgrep fd tree-sitter-cli unzip neovim lazygit \
   wl-clipboard grim slurp cliphist libnotify \
   ttf-jetbrains-mono-nerd \
-  xdg-user-dirs udisks2 udiskie
+  xdg-user-dirs udisks2 udiskie xdg-utils
 print_success "Base packages installed."
 
 print_info "Creating home directories..."
