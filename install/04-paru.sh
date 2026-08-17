@@ -28,6 +28,8 @@ else
     fi
 fi
 
-print_info "Installing BASE AUR packages..."
-retry_command paru -S --needed --noconfirm netpala
-print_success "AUR packages installed successfully."
+if retry_command paru -S --needed --noconfirm netpala; then
+    print_success "AUR packages installed successfully."
+else
+    print_error "Failed to install AUR packages."
+fi
