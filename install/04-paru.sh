@@ -27,3 +27,7 @@ else
         exit 1
     fi
 fi
+
+print_info "Installing BASE AUR packages..."
+retry_command paru -S --needed --noconfirm netpala
+print_success "AUR packages installed successfully."

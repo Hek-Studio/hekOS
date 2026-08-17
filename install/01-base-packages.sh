@@ -5,7 +5,7 @@ source "$(dirname "$0")/utils.sh"
 print_info "Installing essential system packages..."
 retry_command sudo pacman -S --needed --noconfirm \
   stow git base-devel \
-  waybar rofi swaync wlogout \
+  waybar rofi swaync wlogout chromium bluetui pavucontrol \
   hyprland kitty hypridle hyprlock brightnessctl playerctl \
   yazi ffmpeg 7zip jq poppler fd ripgrep fzf zoxide resvg imagemagick mpv imv \
   xdg-desktop-portal-hyprland nwg-look gnome-themes-extra \

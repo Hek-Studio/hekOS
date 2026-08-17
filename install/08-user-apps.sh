@@ -24,7 +24,6 @@ pacman_apps=(
     "obs-studio:Free and open-source software for video recording and live streaming"
     "zen-browser-bin:Privacy-focused web browser built on Firefox"
     "brave-bin:Privacy-oriented web browser that blocks trackers by default"
-    "chromium:An open-source browser project that aims to build a safer, faster, and more stable way"
     "bitwarden:Secure and free password manager for all of your devices"
     "solaar:Linux device manager for Logitech devices connected via USB or Bluetooth receiver"
 )

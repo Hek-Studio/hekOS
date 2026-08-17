@@ -19,7 +19,9 @@ window#waybar {
 #clock,
 #clock.right,
 #workspaces,
-#battery {
+#battery,
+#network,
+#bluetooth {
     background-color: #1a1b26;
     padding: 4px 12px;
     margin: 6px 4px;
@@ -98,4 +100,27 @@ tooltip label {
     color: #c0caf5;
     font-family: "NotoSansM Nerd Font", sans-serif;
     font-size: 13px;
+}
+
+/* --- Network Module --- */
+#network {
+    color: #9ece6a;
+    padding: 4px 18px 4px 10px;
+}
+
+#network.disconnected {
+    color: #f7768e;
+}
+
+/* --- Bluetooth Module --- */
+#bluetooth {
+    color: #7dcfff;
+}
+
+#bluetooth.disabled {
+    color: #565f89;
+}
+
+#bluetooth.connected {
+    color: #73daca;
 }

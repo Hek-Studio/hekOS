@@ -5,10 +5,36 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
+        "network",
+        "bluetooth",
         "pulseaudio",
         "battery",
         "clock"
     ],
+    
+     "network": {
+        "format": "",
+        "format-wifi": "",
+        "format-ethernet": "",
+        "format-disconnected": "󰤭",
+        "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+        "tooltip-format-ethernet": "{ifname} ",
+        "tooltip-format-disconnected": "󰖪",
+        "max-length": 50,
+        "on-click": "exec kitty --title=netpala -e netpala"
+    },
+
+    "bluetooth": {
+        "format": "",
+        "format-disabled": "", // an empty format will hide the module
+        "format-connected": " {num_connections} connected",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "on-click": "exec kitty --title=bluetui -e bluetui"
+    },
+
     "battery": {
         "interval": 60,
         "format": "{icon} {capacity}%",
@@ -56,7 +82,8 @@
                 "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
                 "today": "<span color='#ff6666'><b><u>{}</u></b></span>"
             }
-        }
+        },
+        "on-click": "exec chromium --app=https://calendar.google.com/"
     },
     "hyprland/workspaces": {
         "format": "{name}",
