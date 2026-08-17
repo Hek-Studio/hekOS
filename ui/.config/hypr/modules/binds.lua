@@ -31,7 +31,7 @@ hl.bind(thirdMod .. " + Q",
     hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 -- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(secondMod .. " + S", hl.dsp.layout("togglesplit")) -- dwindle only
-hl.bind(mainMod .. " + W + R", hl.dsp.exec_cmd("~/hekOS/ui/.config/waybar/scripts/launch.sh"))
+hl.bind(thirdMod .. " + W", hl.dsp.exec_cmd("~/.config/waybar/scripts/launch.sh"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
 
 -- Move focus with mainMod + arrow keys

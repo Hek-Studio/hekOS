@@ -9,8 +9,7 @@ KEYBINDS="Apps
   SUPER + F             File manager (yazi)
   SUPER + B             Browser (zen-browser, falls back to chromium)
   ALT + SPACE           App launcher (rofi)
-  SUPER + N             Toggle notification center
-  SUPER + W  then R     Restart Waybar
+  SUPER+SHIFT+CTRL + W  Restart Waybar
   SUPER+SHIFT + Q       Logout menu (wlogout)
   SUPER+SHIFT+CTRL + L  Lock screen (hyprlock)
   SUPER+SHIFT+CTRL + Q  Exit Hyprland
