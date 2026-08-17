@@ -7,7 +7,7 @@ local terminal    = "kitty"
 local fileManager = terminal .. " -e yazi"
 local menu        = "~/.config/rofi/launcher.sh"
 local editor      = terminal .. " -e nvim"
-local browser="if command -v zen-browser >/dev/null 2>&1; then zen-browser; else firefox; fi"
+local browser="if command -v zen-browser >/dev/null 2>&1; then zen-browser; else chromium; fi"
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
@@ -23,11 +23,14 @@ hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(secondMod .. " + Q", hl.dsp.exec_cmd("wlogout"))
 hl.bind(thirdMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("~/.config/hypr/scripts/hekos-keybinds.sh --rofi"))
+
+--title=Keybinds ~/.config/hypr/scripts/hekos-keybinds.sh
 
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 
 hl.bind(thirdMod .. " + Q",
-    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
 -- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(secondMod .. " + S", hl.dsp.layout("togglesplit")) -- dwindle only
 hl.bind(mainMod .. " + W + R", hl.dsp.exec_cmd("~/hekOS/ui/.config/waybar/scripts/launch.sh"))

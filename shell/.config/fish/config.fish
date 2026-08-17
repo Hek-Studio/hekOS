@@ -15,6 +15,17 @@ function y
 	command rm -f -- "$tmp"
 end
 
+function hekOS --description "hekOS helper commands"
+	switch "$argv[1]"
+		case keybinds '' --help -h
+			~/.config/hypr/scripts/hekos-keybinds.sh
+		case '*'
+			echo "Unknown hekOS subcommand: $argv[1]"
+			echo "Usage: hekOS keybinds"
+			return 1
+	end
+end
+
 if test -d $HOME/.local/share/flatpak/exports/share
     set -gx XDG_DATA_DIRS $HOME/.local/share/flatpak/exports/share /var/lib/flatpak/exports/share $XDG_DATA_DIRS
 end
