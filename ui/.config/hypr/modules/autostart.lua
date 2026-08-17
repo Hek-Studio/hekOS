@@ -8,9 +8,11 @@
 -- Or execute your favorite apps at launch like this:
 --
 hl.on("hyprland.start", function()
-  hl.exec_cmd("waybar")
-  hl.exec_cmd("swaync")
-  hl.exec_cmd("sh -c 'awww-daemon & sleep 1 && awww img ~/.config/hypr/wallpapers/wallpaper-001.png'")
-  hl.exec_cmd("hypridle")
-  hl.exec_cmd("systemctl --user start hyprpolkitagent")
+	hl.exec_cmd("waybar")
+	hl.exec_cmd("swaync")
+	hl.exec_cmd("sh -c 'awww-daemon & sleep 1 && awww img ~/.config/hypr/wallpapers/wallpaper-001.png'")
+	hl.exec_cmd("hypridle")
+	hl.exec_cmd("systemctl --user start hyprpolkitagent")
+	hl.exec_cmd("wl-paste --type text --watch cliphist store")
+	hl.exec_cmd("wl-paste --type image --watch cliphist store")
 end)

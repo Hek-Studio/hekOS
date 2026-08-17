@@ -11,7 +11,7 @@ retry_command sudo pacman -S --needed --noconfirm \
   xdg-desktop-portal-hyprland nwg-look gnome-themes-extra\
   qt5-wayland qt6-wayland \
   gcc make ripgrep fd tree-sitter-cli unzip neovim lazygit \
-  wl-clipboard grim slurp \
+  wl-clipboard grim slurp cliphist \
   ttf-jetbrains-mono-nerd
 print_success "Base packages installed."
 

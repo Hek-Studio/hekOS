@@ -28,7 +28,7 @@ hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("~/.config/hypr/scripts/hekos-keybind
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 
 hl.bind(thirdMod .. " + Q",
-    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch exit"))
+    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 -- hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(secondMod .. " + S", hl.dsp.layout("togglesplit")) -- dwindle only
 hl.bind(mainMod .. " + W + R", hl.dsp.exec_cmd("~/hekOS/ui/.config/waybar/scripts/launch.sh"))
@@ -96,3 +96,10 @@ hl.bind(mainMod .. " + P",
 
 hl.bind(secondMod .. " + P",
     hl.dsp.exec_cmd('grim - | wl-copy && notify-send "Screenshot" "Full screen copied to clipboard" -i camera-photo'))
+
+hl.bind(
+	mainMod .. " + C",
+	hl.dsp.exec_cmd(
+		"cliphist list | rofi -dmenu -i -p 'Clipboard' -theme ~/.config/rofi/style.rasi | cliphist decode | wl-copy"
+	)
+)

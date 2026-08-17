@@ -37,6 +37,9 @@ Screenshots
   SUPER + P             Area screenshot to clipboard
   SUPER+SHIFT + P       Full screen screenshot to clipboard
 
+Clipboard
+  SUPER + V             Clipboard history (cliphist)
+  
 Media keys (hardware)
   Volume / Mic mute     Standard multimedia keys
   Brightness up/down    Standard multimedia keys
