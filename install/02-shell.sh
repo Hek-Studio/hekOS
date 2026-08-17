@@ -4,6 +4,9 @@ source "$(dirname "$0")/utils.sh"
 
 print_info "Configuring Shell environment and Apps..."
 
+print_info "Installing fish shell..."
+retry_command sudo pacman -S --needed --noconfirm fish
+
 if ! command -v starship &> /dev/null; then
     print_info "Installing Starship prompt..."
     if retry_command bash -c 'curl -sS https://starship.rs/install.sh | sh -s -- -y'; then
@@ -13,10 +16,10 @@ if ! command -v starship &> /dev/null; then
     fi
 fi
 
-if [ ! -f "shell/.gitconfig.local" ]; then
+if [ ! -f "$REPO_ROOT/shell/.gitconfig.local" ]; then
     read -p "Enter your Git name: " git_name
     read -p "Enter your Git email: " git_email
-    echo -e "[user]\n    name = $git_name\n    email = $git_email" > shell/.gitconfig.local
+    echo -e "[user]\n    name = $git_name\n    email = $git_email" > "$REPO_ROOT/shell/.gitconfig.local"
     print_success "File shell/.gitconfig.local created."
 else
     print_info "shell/.gitconfig.local already exists, skipping prompt."
@@ -44,11 +47,11 @@ fi
 
 print_info "Applying symlinks using Stow for shell and apps..."
 stow_failed=0
-if ! stow -d . -t ~ shell/; then
+if ! stow -d "$REPO_ROOT" -t ~ shell/; then
     print_warning "Failed to stow shell/ (see conflicts above)."
     stow_failed=1
 fi
-if ! stow -d . -t ~ apps/; then
+if ! stow -d "$REPO_ROOT" -t ~ apps/; then
     print_warning "Failed to stow apps/ (see conflicts above)."
     stow_failed=1
 fi
@@ -57,4 +60,18 @@ if [ "$stow_failed" -eq 1 ]; then
     print_error "Shell/apps configuration finished with errors."
     exit 1
 fi
+
+fish_path="$(command -v fish)"
+current_shell="$(getent passwd "$USER" | cut -d: -f7)"
+if [ "$current_shell" != "$fish_path" ]; then
+    print_info "Setting fish as the default shell for $USER..."
+    if sudo usermod -s "$fish_path" "$USER"; then
+        print_success "Default shell set to fish. Log out and back in for it to take effect."
+    else
+        print_warning "Could not set fish as the default shell. Run 'chsh -s $fish_path' manually."
+    fi
+else
+    print_info "fish is already the default shell."
+fi
+
 print_success "Shell and apps configured."

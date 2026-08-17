@@ -13,5 +13,5 @@ backup_if_exists "$HOME/.config/wlogout"
 backup_if_exists "$HOME/.config/gtk-3.0"
 backup_if_exists "$HOME/.config/gtk-4.0"
 
-stow -d . -t ~ ui/
+stow -d "$REPO_ROOT" -t ~ ui/
 print_success "UI configurations linked."

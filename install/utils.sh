@@ -18,19 +18,30 @@ print_error() { echo -e "${RED}[ERROR]${NC} $1"; }
 # Moves an existing real file/dir out of the way before stow links over it.
 # Safe to call repeatedly: if a previous backup with the same name is still
 # there, the new one gets a timestamp suffix instead of colliding with it.
+#
+# A valid symlink already pointing somewhere (presumably stow's own, from an
+# earlier run) is left alone. Anything else — a real file/dir, or a broken/
+# dangling symlink left over from an earlier failed or misconfigured run —
+# gets moved aside, since stow would otherwise refuse it as "not owned by
+# stow" without ever explaining why.
 backup_if_exists() {
     local target="$1"
-    if [ -e "$target" ] && [ ! -L "$target" ]; then
+
+    if [ -L "$target" ] && [ -e "$target" ]; then
+        return 0
+    fi
+
+    if [ -e "$target" ] || [ -L "$target" ]; then
         local name dest
         name="$(basename "$target")"
         dest="$REPO_ROOT/backups/$name"
-        if [ -e "$dest" ]; then
+        if [ -e "$dest" ] || [ -L "$dest" ]; then
             dest="$REPO_ROOT/backups/${name}-$(date +%Y%m%d-%H%M%S)"
         fi
 
         print_warning "Existing folder/file found at $target. Backing it up..."
         mkdir -p "$REPO_ROOT/backups"
-        mv "$target" "$dest"
+        mv -T "$target" "$dest"
         print_success "Backed up $name to $(basename "$REPO_ROOT")/backups/$(basename "$dest")"
     fi
 }
