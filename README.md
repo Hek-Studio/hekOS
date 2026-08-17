@@ -57,6 +57,7 @@ hekOS/
 │   ├── 08-user-apps.sh
 │   ├── 09-dev-apps.sh
 │   ├── 10-dev-tools.sh
+│   ├── 11-biometrics.sh
 │   └── utils.sh
 ├── shell/
 │   └── .config/
@@ -89,10 +90,12 @@ Before running the installer, make sure you have:
 
 ## Quick start
 
-Clone the repository and run the setup script:
+If you plan to make hekOS your own (recommended, unless you're just trying it out), **fork it** or use GitHub's **"Use this template"** first, so you have a repo of your own to customize and push changes to — cloning `Hek-Studio/hekOS` directly leaves you with nowhere of your own to push to. Forking keeps a link back to this repo so you can pull future updates; "Use this template" gives you a clean, independent copy with no upstream link.
+
+Then clone your own copy and run the setup script:
 
 ```bash
-git clone https://github.com/Hek-Studio/hekOS.git
+git clone https://github.com/<your-username>/hekOS.git
 cd hekOS
 chmod +x setup.sh
 ./setup.sh
@@ -103,6 +106,9 @@ The installer will guide you through the setup interactively and ask whether you
 - update the system first
 - install each module
 - reboot when the process is complete
+
+
+If you forked hekOS and later sync updates from upstream (`git fetch upstream` + merge/rebase), expect an occasional merge conflict in `CHANGELOG.md` if both sides have added entries — `release.sh` always inserts at the top of the file, which is the most conflict-prone spot possible. That's normal and harmless (unlike git tags, which never collide across repos since each repo's tags are independent); just resolve it like any other merge conflict, keeping the entries you want.
 
 ## Installation flow
 
@@ -118,8 +124,11 @@ The project is divided into modular scripts inside the `install` directory:
 - `08-user-apps.sh` - interactive install of everyday apps (browsers, Bitwarden, Spotify, etc.)
 - `09-dev-apps.sh` - interactive install of developer apps (VS Code, DBeaver, Postman, etc.)
 - `10-dev-tools.sh` - optional Docker and Volta (Node.js toolchain manager) setup
+- `11-biometrics.sh` - optional fingerprint (`fprintd`) and IR face unlock (`howdy`) support, for laptops that have the hardware
 
 Modules 08-10 are interactive per-app installers: each app is tried via `pacman` first, then falls back to the AUR (`paru`), then to Flatpak if neither is available — you're prompted before each attempt.
+
+`11-biometrics.sh` only installs the packages and prints the manual steps to enroll and enable them (`fprintd-enroll`, `howdy add`) — it does not touch PAM (`/etc/pam.d/...`) automatically. Wiring fingerprint/face unlock into actual login or `sudo` authentication means editing PAM yourself, and a bad PAM edit can lock you out of your session — the module's own output reminds you to keep a root shell open while you test it.
 
 This modular design makes the installation easier to understand and safer to customize.
 
@@ -205,6 +214,18 @@ If that happens:
 - This project is optimized for Arch and CachyOS.
 - It is intentionally opinionated and built around a specific desktop workflow.
 - The installation is meant to be easy to modify and extend as your setup evolves.
+
+## Multiple users
+
+hekOS applies cleanly to more than one account on the same machine: system packages only need installing once, and each user just needs their own dotfiles applied. To add another account set up for a working Hyprland session:
+
+```bash
+sudo scripts/create-user.sh
+```
+
+It asks for a username, an optional full name, and whether to grant sudo (`wheel`) — nothing is assumed. The new account gets the groups a Wayland session actually needs (GPU, audio, input, network, etc.) and `fish` as its shell if it's already installed. From there, log into the new account, clone hekOS into its own `$HOME`, and run `./setup.sh` — already-installed system packages are skipped automatically, so only that user's dotfiles get applied.
+
+This script isn't part of the `install/` flow — it's a standalone tool, run manually whenever you want it.
 
 ## Releasing (maintainers)
 
