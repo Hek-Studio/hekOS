@@ -57,7 +57,6 @@ hekOS/
 │   ├── 08-user-apps.sh
 │   ├── 09-dev-apps.sh
 │   ├── 10-dev-tools.sh
-│   ├── 11-biometrics.sh
 │   └── utils.sh
 ├── shell/
 │   └── .config/
@@ -124,7 +123,6 @@ The project is divided into modular scripts inside the `install` directory:
 - `08-user-apps.sh` - interactive install of everyday apps (browsers, Bitwarden, Spotify, etc.)
 - `09-dev-apps.sh` - interactive install of developer apps (VS Code, DBeaver, Postman, etc.)
 - `10-dev-tools.sh` - optional Docker and Volta (Node.js toolchain manager) setup
-- `11-biometrics.sh` - optional fingerprint (`fprintd`) and IR face unlock (`howdy`) support, for laptops that have the hardware
 
 Modules 08-10 are interactive per-app installers: each app is tried via `pacman` first, then falls back to the AUR (`paru`), then to Flatpak if neither is available — you're prompted before each attempt.
 

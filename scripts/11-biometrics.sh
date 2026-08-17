@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-source "$(dirname "$0")/utils.sh"
+source "$(dirname "$0")/../install/utils.sh"
 
 print_info "Biometrics setup (fingerprint reader / IR face unlock)..."
 print_warning "Skip either of these if your machine doesn't have that hardware."
