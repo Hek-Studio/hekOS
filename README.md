@@ -58,6 +58,10 @@ hekOS/
 │   ├── 09-dev-apps.sh
 │   ├── 10-dev-tools.sh
 │   └── utils.sh
+├── scripts/
+│   ├── 11-biometrics.sh
+│   ├── create-user.sh
+│   └── release.sh
 ├── shell/
 │   └── .config/
 │       └── ...
@@ -126,8 +130,9 @@ The project is divided into modular scripts inside the `install` directory:
 
 Modules 08-10 are interactive per-app installers: each app is tried via `pacman` first, then falls back to the AUR (`paru`), then to Flatpak if neither is available — you're prompted before each attempt.
 
-
 This modular design makes the installation easier to understand and safer to customize.
+
+`scripts/11-biometrics.sh` (fingerprint and IR face unlock support, via `fprintd`/`howdy`) lives outside `install/` for now, staged for testing on real hardware before it joins the main flow — run it manually with `bash scripts/11-biometrics.sh` if you want to try it. It only installs the packages and prints the manual steps to enroll and enable them — it does not touch PAM (`/etc/pam.d/...`) automatically, since a bad PAM edit can lock you out of your session.
 
 ## Manual usage
 
@@ -159,6 +164,12 @@ The base install includes several components that are important for a polished W
 - `gnome-themes-extra`
 - `chromium`, `bluetui`, `pavucontrol` - browser and quick-access tools wired into Waybar's clock, network, and bluetooth modules
 - `lazygit` - terminal UI for git, available anywhere from the shell
+- `hyprpolkitagent` - lets GUI apps show a password prompt when they need elevated privileges (nothing does this by default on a minimal Hyprland setup)
+- `cliphist` - clipboard history, browse it with `SUPER + C`
+- `tlp` - power management, enabled as a system service for better laptop battery life
+- `xdg-user-dirs` - creates `~/Downloads`, `~/Documents`, `~/Pictures`, etc. so apps have somewhere standard to save files
+- `udisks2`, `udiskie` - auto-mounts USB drives/SD cards with a notification to open them in yazi
+- `xdg-utils` - provides `xdg-open`, yazi's fallback for file types without a specific opener rule (PDFs, etc.)
 
 ## Wallpaper setup
 
