@@ -8,6 +8,7 @@ local fileManager = terminal .. " -e yazi"
 local menu        = "~/.config/rofi/launcher.sh"
 local editor      = terminal .. " -e nvim"
 local browser="if command -v zen-browser >/dev/null 2>&1; then zen-browser; else chromium; fi"
+local music="if command -v feishin >/dev/null 2>&1; then feishin ; else spotify; fi"
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
@@ -20,6 +21,7 @@ hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
+hl.bind(mainMod .. " + M", hl.dsp.exec_cmd(music))
 hl.bind("ALT + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(secondMod .. " + Q", hl.dsp.exec_cmd("wlogout"))
 hl.bind(thirdMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
