@@ -1,0 +1,56 @@
+name: Release
+
+# Runs scripts/release.sh's leftover manual step automatically: whenever a
+# vX.Y.Z tag is pushed (created by scripts/release.sh, or by hand), publish
+# a GitHub Release for it using that version's section of CHANGELOG.md as
+# the notes. Uses the repo's own GITHUB_TOKEN, so it doesn't matter which
+# gh account (if any) is authenticated on whoever's machine pushed the tag.
+#
+# Can also be run manually (Actions tab > Release > Run workflow, or
+# `gh workflow run release.yml -f tag=v1.0.0`) for a tag that was pushed
+# before this workflow existed.
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Existing tag to release (e.g. v1.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.inputs.tag || github.ref_name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - name: Extract this version's changelog section
+        run: |
+          awk -v ver="## ${TAG}" '
+            $0 ~ "^"ver { found=1; print; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+
+          if [ ! -s release-notes.md ]; then
+            echo "No matching section for ${TAG} in CHANGELOG.md" >&2
+            exit 1
+          fi
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${TAG}" \
+            --title "${TAG}" \
+            --notes-file release-notes.md
