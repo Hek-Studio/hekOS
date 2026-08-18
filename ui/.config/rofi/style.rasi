@@ -90,7 +90,7 @@ mainbox {
     border-radius:               0px 0px 0px 0px;
     border-color:                @border-colour;
     background-color:            transparent;
-    children:                    [ "inputbar", "message", "listview" ];
+    children:                    ["prompt", "inputbar", "message", "listview" ];
 }
 
 /*****----- Inputbar -----*****/
@@ -110,8 +110,9 @@ inputbar {
 prompt {
     enabled:                     true;
     background-color:            inherit;
-    text-color:                  inherit;
+    text-color:                  #ffffff;
 }
+
 textbox-prompt-colon {
     enabled:                     true;
     padding:                     5px 0px;

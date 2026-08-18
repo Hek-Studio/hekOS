@@ -23,6 +23,6 @@ while IFS= read -r line; do
     printf '%s\n' "$line" >> "$entries_file"
 done < <(cliphist list)
 
-chosen="$(rofi -dmenu -i -show-icons -p 'Clipboard' -theme "$HOME/.config/rofi/style.rasi" < "$entries_file")"
+chosen="$(rofi -dmenu -i -show-icons -p 'Clipboard History' -theme "$HOME/.config/rofi/style.rasi" < "$entries_file")"
 
 [ -n "$chosen" ] && echo "$chosen" | cliphist decode | wl-copy

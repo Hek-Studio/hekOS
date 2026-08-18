@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
-# Guardar el nivel de brillo actual
 brightnessctl -s
 
-# Atenuar gradualmente restando un 5% cada 40 milisegundos (15 pasos)
-for i in {1..15}; do
-    brightnessctl set 5%- -q
-    sleep 0.04
-done
+floor=10
+current="$(brightnessctl -m | awk -F, '{ gsub("%","",$4); print $4 }')"
+
+if [ -n "$current" ] && [ "$current" -gt "$floor" ]; then
+    steps=15
+    for i in $(seq 1 "$steps"); do
+        target=$(( current - (current - floor) * i / steps ))
+        brightnessctl set "${target}%" -q
+        sleep 0.04
+    done
+fi
+
+brightnessctl set "${floor}%" -q

@@ -38,7 +38,10 @@ Screenshots
 
 Clipboard
   SUPER + C             Clipboard history (cliphist)
-  
+
+USB / removable media
+  SUPER + U             Safely eject a mounted USB drive/SD card
+
 Media keys (hardware)
   Volume / Mic mute     Standard multimedia keys
   Brightness up/down    Standard multimedia keys

@@ -102,3 +102,5 @@ hl.bind(secondMod .. " + P",
 hl.bind(
 	mainMod .. " + C", hl.dsp.exec_cmd("~/.config/hypr/scripts/cliphist-rofi.sh")
 )
+
+hl.bind(mainMod .. " + U", hl.dsp.exec_cmd("~/.config/hypr/scripts/eject-usb.sh"))

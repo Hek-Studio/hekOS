@@ -168,7 +168,7 @@ The base install includes several components that are important for a polished W
 - `cliphist` - clipboard history, browse it with `SUPER + C`
 - `tlp` - power management, enabled as a system service for better laptop battery life
 - `xdg-user-dirs` - creates `~/Downloads`, `~/Documents`, `~/Pictures`, etc. so apps have somewhere standard to save files
-- `udisks2`, `udiskie` - auto-mounts USB drives/SD cards with a notification to open them in yazi
+- `udisks2`, `udiskie` - auto-mounts USB drives/SD cards with a notification to open them in yazi; `SUPER + U` safely ejects one
 - `xdg-utils` - provides `xdg-open`, yazi's fallback for file types without a specific opener rule (PDFs, etc.)
 
 ## Wallpaper setup
